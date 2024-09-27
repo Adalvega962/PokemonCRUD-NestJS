@@ -132,8 +132,8 @@ export class PokemonService {
       msj : 'Pokemon deleted',
       data : id
     }
-    //ASI PASA
-    
+    //ASI PASAdsss
+
   }
   
 }
