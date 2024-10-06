@@ -16,9 +16,12 @@ npm i -g @nest/cli
 ```
 4. Levantar la base de datos
 ```
-docker-composer -d up
+docker-compose up -d
 ```
-
+5. Ejecutar la peticion para obtener datos de por medio
+```
+GET localhost:3000/api/seed
+```
 ## Stack Usado
 * MongoDB
 * Nest

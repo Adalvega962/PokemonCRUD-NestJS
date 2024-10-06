@@ -4,6 +4,7 @@ import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import { isValidObjectId, Model } from 'mongoose';
 import { Pokemon } from './entities/pokemon.entity';
 import { InjectModel } from '@nestjs/mongoose';
+import { PaginacionDto } from 'src/dto/paginacion.dto';
 
 @Injectable()
 export class PokemonService {
@@ -11,7 +12,10 @@ export class PokemonService {
   constructor(
     @InjectModel( Pokemon.name) 
       private readonly pokemonModel: Model<Pokemon>
-    ) {}
+    ) {
+      console.log(process.env.DEFAULT_LIMIT);
+      
+    }
 
   async create(createPokemonDto: CreatePokemonDto) {
     try{
@@ -28,8 +32,15 @@ export class PokemonService {
       this.handleExceptions(e);
     }
   }
-  findAll() {
-    return `This action returns all pokemon`;
+  async findAll(PaginacionDto : PaginacionDto) {
+    const { limit = 5 , offset = 0 } = PaginacionDto;
+    const pokemon = await this.pokemonModel.find().limit( limit ).skip( offset )
+    .sort({ 
+      no : 1
+    //  It is used to select the fields that we want to return , in this case we do not want to return the version field 
+    }).select('-__v');
+
+    return pokemon;
   }
 
   async findOne(term: string) {
